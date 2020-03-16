@@ -4,19 +4,23 @@ window.onload = function() {
   var pages = {
     a: {
       title: "Page A",
-      content: "This is Page A."
+      content: "This is Page A.",
+      gaReference: "/a.html"
     },
     b: {
       title: "Page B",
-      content: "Arrived in Page B."
+      content: "Arrived in Page B.",
+      gaReference: "/b.html"
     },
     c: {
       title: "Page C",
-      content: "Landed on page C."
+      content: "Landed on page C.",
+      gaReference: "/c.html"
     },
     d: {
       title: "Page D",
-      content: "Navigated on page D."
+      content: "Navigated on page D.",
+      gaReference: "/d.html"
     }
   }
 
@@ -26,14 +30,14 @@ window.onload = function() {
   var contentElement = document.getElementById('content')
 
   // Update the page content.
-  var updateContent = function(page, stateObj) {
+  var updateContent = function(stateObj) {
     // Check to make sure that this state object is not null.
     if (stateObj) {
       document.title = stateObj.title
       titleElement.innerHTML = stateObj.title
       contentElement.innerHTML = stateObj.content
 
-      ga('set', 'page', '/' + page)
+      ga('set', 'page', stateObj.gaReference)
       ga('send', 'pageview')
     }
   }
@@ -48,7 +52,7 @@ window.onload = function() {
       var pageData = pages[pageURL.split('.')[0]]
 
       // Update the title and content.
-      updateContent(pageURL, pageData)
+      updateContent(pageData)
       
       // Create a new history item.
       history.pushState(pageData, pageData.title, pageURL)
@@ -61,7 +65,7 @@ window.onload = function() {
   })
 
   // Load initial content.
-  updateContent('a.html', pages.a)
+  updateContent(pages.a)
 
   // Update this history event so that the state object contains the data
   // for page A.
